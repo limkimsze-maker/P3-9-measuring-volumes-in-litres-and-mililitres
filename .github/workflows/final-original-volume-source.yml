@@ -17,6 +17,7 @@ jobs:
           s=s.replace('Practise <b>litres and millilitres</b> with the same question types as your worksheets.','Practise <b>litres and millilitres</b> using fresh Sports Fiesta examples and generated values.')
           s=s.replace('<b>Easy</b>: familiar questions and straightforward numbers.','<b>Easy</b>: straightforward generated values.')
           s=s.replace('Total volume of milk','Total volume of sports drink')
+          s=s.replace('The total volume of milk is','The total volume of sports drink is')
           s=s.replace('Each big milk carton is 1 l. Each small carton is 250 ml.','Each large sports drink bottle is 1 l. Each small bottle is 250 ml.')
           s=s.replace('big milk carton','large sports drink bottle').replace('small carton','small bottle')
           s=s.replace('big cartons','large bottles').replace('small cartons','small bottles')
