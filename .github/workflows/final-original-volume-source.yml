@@ -1,0 +1,37 @@
+name: Final Original Sailing Questions
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('index.html'); s=p.read_text(encoding='utf-8')
+          s=s.replace('Practise <b>litres and millilitres</b> with the same question types as your worksheets.','Practise <b>litres and millilitres</b> using fresh Sports Fiesta examples and generated values.')
+          s=s.replace('<b>Easy</b>: familiar questions and straightforward numbers.','<b>Easy</b>: straightforward generated values.')
+          s=s.replace('Total volume of milk','Total volume of sports drink')
+          s=s.replace('Each big milk carton is 1 l. Each small carton is 250 ml.','Each large sports drink bottle is 1 l. Each small bottle is 250 ml.')
+          s=s.replace('big milk carton','large sports drink bottle').replace('small carton','small bottle')
+          s=s.replace('big cartons','large bottles').replace('small cartons','small bottles')
+          s=s.replace('Volume of juice in the tank','Water in the team cooler')
+          s=s.replace('juice','water')
+          s=s.replace('>Milk<','>Drink<')
+          hook='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-original-questions-v1.js?v=20260810a" data-practice="9"></script>\n'
+          marker='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-medal-hook-v4.js'
+          if 'sports-fiesta-original-questions-v1.js' not in s: s=s.replace(marker,hook+marker,1)
+          p.write_text(s,encoding='utf-8')
+          PY
+      - run: |
+          if git diff --quiet; then exit 0; fi
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add index.html
+          git commit -m "Use original Sailing volume contexts"
+          git push
