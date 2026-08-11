@@ -12,11 +12,15 @@ jobs:
       - run: |
           python - <<'PY'
           from pathlib import Path
+          import re
           p=Path('index.html'); s=p.read_text(encoding='utf-8')
           s=s.replace('const TOTAL = 10;','let TOTAL = 10;',1).replace('const TOTAL=10;','let TOTAL=10;',1)
+          s=s.replace('const maxCorrect=mode===2?5:10','const maxCorrect=mode===2?6:10')
+          s=s.replace('Each player had 5 sailing turns.','Each player had 6 sailing turns.')
           hook='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-2p-12-round-v1.js?v=20260811a"></script>\n'
           marker='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-medal-hook-v4.js'
           if 'sports-fiesta-2p-12-round-v1.js' not in s:s=s.replace(marker,hook+marker,1)
+          s=re.sub(r'sports-fiesta-medal-hook-v4\.js\?v=[^"\']+', 'sports-fiesta-medal-hook-v4.js?v=20260811a', s)
           p.write_text(s,encoding='utf-8')
           PY
       - run: |
@@ -24,5 +28,6 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add index.html
-          git commit -m "Use 12 questions for 2-player rounds"
-          git push
+          git commit -m "Align Sailing with 12-question 2P scoring"
+          git pull --rebase origin main
+          git push origin main
