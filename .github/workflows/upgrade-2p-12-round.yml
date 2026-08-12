@@ -1,4 +1,4 @@
-name: Upgrade 2P to 12 Questions
+name: Keep 2P on 12 Questions v2
 on:
   push:
     branches: [main]
@@ -17,9 +17,10 @@ jobs:
           s=s.replace('const TOTAL = 10;','let TOTAL = 10;',1).replace('const TOTAL=10;','let TOTAL=10;',1)
           s=s.replace('const maxCorrect=mode===2?5:10','const maxCorrect=mode===2?6:10')
           s=s.replace('Each player had 5 sailing turns.','Each player had 6 sailing turns.')
-          hook='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-2p-12-round-v1.js?v=20260811a"></script>\n'
+          s=re.sub(r'\s*<script src="https://limkimsze-maker\.github\.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-2p-12-round-v1\.js\?v=[^"]+"></script>','',s)
+          hook='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-2p-12-round-v2.js?v=20260812b"></script>\n'
           marker='<script src="https://limkimsze-maker.github.io/P3-Length-Mass-and-Volume-Sports-Fiesta-/sports-fiesta-medal-hook-v4.js'
-          if 'sports-fiesta-2p-12-round-v1.js' not in s:s=s.replace(marker,hook+marker,1)
+          if 'sports-fiesta-2p-12-round-v2.js' not in s:s=s.replace(marker,hook+marker,1)
           s=re.sub(r'sports-fiesta-medal-hook-v4\.js\?v=[^"\']+', 'sports-fiesta-medal-hook-v4.js?v=20260811a', s)
           p.write_text(s,encoding='utf-8')
           PY
@@ -28,6 +29,6 @@ jobs:
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add index.html
-          git commit -m "Align Sailing with 12-question 2P scoring"
+          git commit -m "Keep Sailing on v2 2-player runtime"
           git pull --rebase origin main
           git push origin main
